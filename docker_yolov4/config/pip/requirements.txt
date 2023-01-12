@@ -1,0 +1,14 @@
+# basic dependent
+setuptools==65.6.3
+wheel==0.38.4
+numpy==1.24.1
+
+# yolo dependent
+keras==2.11.0
+tensorflow==2.11.0
+tensorflow-io==0.29.0
+yolov4==3.2.0
+
+# vision
+opencv-contrib-python==4.7.0.68
+opencv-python==4.7.0.68
