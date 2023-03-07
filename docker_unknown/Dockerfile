@@ -6,17 +6,17 @@ FROM ubuntu:22.04
 ARG USER=initial
 ARG GROUP=inital
 ARG UID=1000
-ARG GID=$UID
+ARG GID=${UID}
 ARG SHELL=/bin/bash
 
 ## setup user and group parameter
-RUN groupadd --gid $GID $GROUP \
-  && useradd --gid $GID --uid $UID -ms $SHELL $USER \
+RUN groupadd --gid ${GID} ${GROUP} \
+  && useradd --gid ${GID} --uid ${UID} -ms ${SHELL} ${USER} \
   && mkdir -p /etc/sudoers.d \
-  && echo "$USER ALL=(ALL) NOPASSWD: ALL" > "/etc/sudoers.d/$USER" \
-  && chmod 0440 "/etc/sudoers.d/$USER"
+  && echo "${USER} ALL=(ALL) NOPASSWD: ALL" > "/etc/sudoers.d/${USER}" \
+  && chmod 0440 "/etc/sudoers.d/${USER}"
 
-## changing the source of information and listings for software
+# changing the source of information and listings for software
 RUN sed -i 's@archive.ubuntu.com@ftp.tku.edu.tw/@g' /etc/apt/sources.list
 
 ############################### INSTALL & SETUP ###############################
@@ -34,13 +34,13 @@ COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 ## setup terminator config
-COPY ./config/shell/terminator_config /etc/xdg/terminator/config
+# COPY ./config/shell/terminator_config /etc/xdg/terminator/config
 
-## switch image workspace to $HOME
-WORKDIR $HOME
+## switch image workspace to user home folder
+WORKDIR /home/${USER}
 
-## switch container user to $USER
-USER $USER
+## switch container user to ${USER}
+USER ${USER}
 
 ## things to do when docker run
 ENTRYPOINT ["/entrypoint.sh", "terminator"]
