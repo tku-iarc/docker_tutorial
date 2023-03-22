@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM nvidia/cuda:11.7.1-cudnn8-devel-ubuntu22.04
 
 ############################## SYSTEM PARAMETERS ##############################
 
@@ -36,11 +36,18 @@ RUN chmod +x /entrypoint.sh
 ## setup terminator config
 # COPY ./config/shell/terminator_config /etc/xdg/terminator/config
 
-## switch image workspace to user home folder
+## switch workspace to user home folder
 WORKDIR /home/${USER}
 
 ## switch container user to ${USER}
 USER ${USER}
 
+## create work
+RUN sudo mkdir work
+
+# switch workspace to ~/work
+WORKDIR /home/${USER}/work
+
 ## things to do when docker run
-ENTRYPOINT ["/entrypoint.sh", "terminator"]
+# ENTRYPOINT ["/entrypoint.sh", "terminator"]
+ENTRYPOINT ["/entrypoint.sh", "bash"]
